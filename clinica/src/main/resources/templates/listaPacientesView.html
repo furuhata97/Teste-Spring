@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="header">
+<head>
+    <title>Saúde &amp; Cia - Lista de Pacientes</title>
+</head>
+
+<section layout:fragment="conteudo">
+
+    <nav class="navbar navbar-toggleable-md navbar-dark navbar-custom-lista">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <spam class="navbar-brand">
+            <img src="/images/if_Man-16_379485.png" width="30" height="30" class="d-inline-block align-top" alt=""/>
+            Lista de Pacientes
+        </spam>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/principal">Principal</a>
+                    <a class="nav-link" href="#">Médico</a>
+                    <a class="nav-link" href="/secretaria">Secretária</a>
+                    <a class="nav-link" href="#">Notificações</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <br/>
+
+    <div class="pad">
+        <div class="card border-warning mb-3" style="max-width: 100%;">
+            <div class="card-header">Menu da Secretária</div>
+            <div class="card-body text-warning">
+                <h4 class="card-title">Lista de pacientes</h4>
+                <p class="card-text">Abaixo é exibido a lista de todos os pacientes cadastrados no sistema.<br/>É possível editá-los ou excluí-los</p>
+                <br/>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th class="text-center">CPF</th>
+                            <th class="text-center">Nome</th>
+                            <th class="text-center">Data de Nascimento</th>
+                            <th class="text-center">Cidade</th>
+                            <th class="text-center">Endereço</th>
+                            <th class="text-center">Complemento</th>
+                            <th class="text-center">Email</th>
+                            <th class="text-center">Telefone</th>
+                            <th class="text-center">Estado</th>
+                            <th class="text-center">Editar/Excluir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="paciente: ${pacientes}">
+                            <td class="text-center" th:text="${paciente.cpf}"></td>
+                            <td class="text-center" th:text="${paciente.nome}"></td>
+                            <td class="text-center" th:text="${{paciente.dataNascimento}}"></td>
+                            <td class="text-center" th:text="${paciente.cidade}"></td>
+                            <td class="text-center" th:text="${paciente.endereco}"></td>
+                            <td class="text-center" th:text="${paciente.complemento}"></td>
+                            <td class="text-center" th:text="${paciente.email}"></td>
+                            <td class="text-center" th:text="${paciente.telefone}"></td>
+                            <td class="text-center" th:text="${paciente.estado.estado}"></td>
+                            <td class="text-center">
+                                <a class = "btn btn-link btn-xs" href="#" title="Editar" rel="tooltip" data-placement="top">
+                                    <img src="/images/if_love_1325176.png" width="40" height="40"/>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+</html>

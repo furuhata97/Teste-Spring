@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,10 +25,6 @@ public class SecretariaController {
     @Autowired
     private Pacientes pacientes;
 
-    @RequestMapping("/teste")
-    public String teste(){
-        return "principal";
-    }
 
     @RequestMapping("/novo-paciente")
     public ModelAndView novoPaciente(){
@@ -44,15 +41,31 @@ public class SecretariaController {
         }
 
         try {
-            pacientes.save(paciente);
-            attributes.addFlashAttribute("mensagem", "Paciente cadastrado com sucesso");
-            return "redirect:/secretaria";
+            Paciente p = pacientes.findOne(paciente.getCpf());
+            if(p==null){
+                pacientes.save(paciente);
+                attributes.addFlashAttribute("mensagem", "Paciente cadastrado com sucesso");
+                return "redirect:/secretaria";
+            }else{
+                errors.rejectValue("cpf", null, "O CPF informado já está cadastrado");
+                return "cadastraPacienteView";
+            }
+
         }catch(DataIntegrityViolationException e) {
             errors.rejectValue("dataNascimento", null, "Formato de data inválido");
             return "cadastraPacienteView";
 
         }
     }
+
+    @RequestMapping("/listaPacientes")
+    public ModelAndView lista(){
+        List<Paciente> todosPacientes = pacientes.findAll();
+        ModelAndView mv = new ModelAndView("listaPacientesView");
+        mv.addObject("pacientes", todosPacientes);
+        return mv;
+    }
+
 
     @ModelAttribute("todosEstados")
     public List<Estados> todosStatusTitulo() {
